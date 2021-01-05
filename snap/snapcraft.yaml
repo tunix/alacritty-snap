@@ -10,9 +10,6 @@ apps:
         command: bin/alacritty
         common-id: io.alacritty.Alacritty
         desktop: usr/share/applications/Alacritty.desktop
-        environment:
-            XDG_CONFIG_HOME: $SNAP_USER_DATA
-            XDG_DATA_DIRS: $SNAP_DATA
 
 parts:
     alacritty:
