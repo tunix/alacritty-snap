@@ -7,14 +7,28 @@ confinement: classic
 
 apps:
     alacritty:
-        command: bin/alacritty
+        command: bin/desktop-launch $SNAP/bin/alacritty
         common-id: io.alacritty.Alacritty
         desktop: usr/share/applications/Alacritty.desktop
+        environment:
+            LC_ALL: C.UTF-8
 
 parts:
+    desktop-glib-only:
+        source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+        source-subdir: glib-only
+        plugin: make
+        build-packages:
+            - libglib2.0-dev
+        stage-packages:
+            - libglib2.0-bin
+
     alacritty:
+        after:
+            - desktop-glib-only
         plugin: rust
-        source: https://github.com/alacritty/alacritty/archive/v0.6.0.tar.gz
+        source: https://github.com/alacritty/alacritty.git
+        source-tag: v0.7.1
         parse-info:
             - extra/linux/io.alacritty.Alacritty.appdata.xml
         rust-path:
@@ -27,7 +41,17 @@ parts:
             - libxcb-xfixes0-dev
             - python3
             - libegl1-mesa-dev # necessary for nvidia users on wayland
+        stage-packages:
+            - libfontconfig1
+            - libfreetype6
+            - libpng16-16
+            - libglu1-mesa
+            - libgl1-mesa-dri
+            - libgl1-mesa-glx
         override-build: |
+            version=$(git describe|cut -c2-)
+
+            snapcraftctl set-version $version
             snapcraftctl build
 
             mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications \
