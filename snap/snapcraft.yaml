@@ -23,9 +23,19 @@ parts:
         stage-packages:
             - libglib2.0-bin
 
+    mesa:
+        plugin: nil
+        stage-packages:
+            - libglu1-mesa
+            - libgl1-mesa-dri
+            - libgl1-mesa-glx
+        build-attributes:
+            - no-patchelf
+
     alacritty:
         after:
             - desktop-glib-only
+            - mesa
         plugin: rust
         source: https://github.com/alacritty/alacritty.git
         source-tag: v0.7.1
@@ -45,9 +55,8 @@ parts:
             - libfontconfig1
             - libfreetype6
             - libpng16-16
-            - libglu1-mesa
-            - libgl1-mesa-dri
-            - libgl1-mesa-glx
+        build-attributes:
+            - no-patchelf
         override-build: |
             version=$(git describe|cut -c2-)
 
