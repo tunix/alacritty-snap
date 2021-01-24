@@ -7,35 +7,33 @@ confinement: classic
 
 apps:
     alacritty:
-        command: bin/desktop-launch $SNAP/bin/alacritty
+        command: bin/alacritty
         common-id: io.alacritty.Alacritty
         desktop: usr/share/applications/Alacritty.desktop
         environment:
             LC_ALL: C.UTF-8
+            XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
+            XCURSOR_PATH: $SNAP/usr/share/icons
+            XLOCALEDIR: $SNAP/usr/share/X11/locale
+            LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+            LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+            LIBVA_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+            __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
 
 parts:
-    desktop-glib-only:
-        source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-        source-subdir: glib-only
-        plugin: make
-        build-packages:
-            - libglib2.0-dev
-        stage-packages:
-            - libglib2.0-bin
-
     mesa:
         plugin: nil
         stage-packages:
             - libglu1-mesa
             - libgl1-mesa-dri
             - libgl1-mesa-glx
+            - libegl-mesa0
+            - libegl1
+            - libegl1-mesa
         build-attributes:
             - no-patchelf
 
     alacritty:
-        after:
-            - desktop-glib-only
-            - mesa
         plugin: rust
         source: https://github.com/alacritty/alacritty.git
         source-tag: v0.7.1
@@ -55,8 +53,6 @@ parts:
             - libfontconfig1
             - libfreetype6
             - libpng16-16
-        build-attributes:
-            - no-patchelf
         override-build: |
             version=$(git describe|cut -c2-)
 
