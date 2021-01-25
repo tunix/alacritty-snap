@@ -7,7 +7,10 @@ confinement: classic
 
 apps:
     alacritty:
-        command: bin/desktop-launch $SNAP/bin/alacritty
+        command: bin/alacritty
+        command-chain:
+            - bin/desktop-launch
+            - bin/xdg-wrapper
         common-id: io.alacritty.Alacritty
         desktop: usr/share/applications/Alacritty.desktop
         environment:
@@ -29,13 +32,20 @@ parts:
             - libglu1-mesa
             - libgl1-mesa-dri
             - libgl1-mesa-glx
+            - libegl-mesa0
+            - libegl1
+            - libegl1-mesa
+            - libglx-mesa0
         build-attributes:
             - no-patchelf
 
+    xdg-wrapper:
+        plugin: dump
+        source: snap/local/
+        organize:
+            xdg-wrapper: bin/
+
     alacritty:
-        after:
-            - desktop-glib-only
-            - mesa
         plugin: rust
         source: https://github.com/alacritty/alacritty.git
         source-tag: v0.7.1
@@ -51,12 +61,23 @@ parts:
             - libxcb-xfixes0-dev
             - python3
             - libegl1-mesa-dev # necessary for nvidia users on wayland
+            - libxcb-render0-dev
+            - libxcb-shape0-dev
+            - libxcb1-dev
+            - libgl1-mesa-dev
         stage-packages:
             - libfontconfig1
             - libfreetype6
             - libpng16-16
-        build-attributes:
-            - no-patchelf
+            - libxau6
+            - libxcursor1
+            - libxcb-render0
+            - libxcb-shape0
+            - libxcb-xfixes0
+            - libxcb1
+            - libxdmcp6
+            - libxi6
+            - libxrandr2
         override-build: |
             version=$(git describe|cut -c2-)
 
