@@ -15,6 +15,7 @@ apps:
         desktop: usr/share/applications/Alacritty.desktop
         environment:
             LC_ALL: C.UTF-8
+            LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
 
 parts:
     desktop-glib-only:
@@ -78,6 +79,7 @@ parts:
             - libxdmcp6
             - libxi6
             - libxrandr2
+            - libffi7
         override-build: |
             version=$(git describe|cut -c2-)
 
