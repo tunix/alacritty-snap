@@ -21,6 +21,10 @@ distributions.</p>
 
 <p align="center">Published for <img src="https://raw.githubusercontent.com/anythingcodes/slack-emoji-for-techies/gh-pages/emoji/tux.png" align="top" width="24" /> with 💝 by Snapcrafters</p>
 
+## Build
+
+    SNAPCRAFT_BUILD_ENVIRONMENT_MEMORY=4G snapcraft --debug
+
 ## Install
 
     sudo snap install alacritty --classic
