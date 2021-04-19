@@ -48,7 +48,7 @@ parts:
     alacritty:
         plugin: rust
         source: https://github.com/alacritty/alacritty.git
-        source-tag: v0.7.1
+        source-tag: v0.7.2
         parse-info:
             - extra/linux/io.alacritty.Alacritty.appdata.xml
         rust-path:
