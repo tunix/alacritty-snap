@@ -10,7 +10,7 @@ apps:
         command: bin/alacritty
         command-chain:
             - bin/desktop-launch
-            - bin/xdg-wrapper
+            - bin/custom-wrapper
         common-id: io.alacritty.Alacritty
         desktop: usr/share/applications/Alacritty.desktop
         environment:
@@ -40,11 +40,11 @@ parts:
         build-attributes:
             - no-patchelf
 
-    xdg-wrapper:
+    custom-wrapper:
         plugin: dump
         source: snap/local/
         organize:
-            xdg-wrapper: bin/
+            custom-wrapper: bin/
 
     alacritty:
         plugin: rust
