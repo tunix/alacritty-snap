@@ -6,91 +6,91 @@ grade: stable
 confinement: classic
 
 apps:
-    alacritty:
-        command: bin/alacritty
-        command-chain:
-            - bin/desktop-launch
-            - bin/custom-wrapper
-        common-id: io.alacritty.Alacritty
-        desktop: usr/share/applications/Alacritty.desktop
-        environment:
-            LC_ALL: C.UTF-8
-            LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
+  alacritty:
+    command: bin/alacritty
+    command-chain:
+      - bin/desktop-launch
+      - bin/custom-wrapper
+    common-id: io.alacritty.Alacritty
+    desktop: usr/share/applications/Alacritty.desktop
+    environment:
+      LC_ALL: C.UTF-8
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
 
 parts:
-    desktop-glib-only:
-        source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-        source-subdir: glib-only
-        plugin: make
-        build-packages:
-            - libglib2.0-dev
-        stage-packages:
-            - libglib2.0-bin
+  desktop-glib-only:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: glib-only
+    plugin: make
+    build-packages:
+      - libglib2.0-dev
+    stage-packages:
+      - libglib2.0-bin
 
-    mesa:
-        plugin: nil
-        stage-packages:
-            - libglu1-mesa
-            - libgl1-mesa-dri
-            - libgl1-mesa-glx
-            - libegl-mesa0
-            - libegl1
-            - libegl1-mesa
-            - libglx-mesa0
-        build-attributes:
-            - no-patchelf
+  mesa:
+    plugin: nil
+    stage-packages:
+      - libglu1-mesa
+      - libgl1-mesa-dri
+      - libgl1-mesa-glx
+      - libegl-mesa0
+      - libegl1
+      - libegl1-mesa
+      - libglx-mesa0
+    build-attributes:
+      - no-patchelf
 
-    custom-wrapper:
-        plugin: dump
-        source: snap/local/
-        organize:
-            custom-wrapper: bin/
+  custom-wrapper:
+    plugin: dump
+    source: snap/local/
+    organize:
+      custom-wrapper: bin/
 
-    alacritty:
-        plugin: rust
-        source: https://github.com/alacritty/alacritty.git
-        source-tag: v0.7.2
-        parse-info:
-            - extra/linux/io.alacritty.Alacritty.appdata.xml
-        rust-path:
-            - alacritty
-        build-packages:
-            - cmake
-            - pkg-config
-            - libfreetype6-dev
-            - libfontconfig1-dev
-            - libxcb-xfixes0-dev
-            - python3
-            - libegl1-mesa-dev # necessary for nvidia users on wayland
-            - libxcb-render0-dev
-            - libxcb-shape0-dev
-            - libxcb1-dev
-            - libgl1-mesa-dev
-        stage-packages:
-            - libfontconfig1
-            - libfreetype6
-            - libpng16-16
-            - libxau6
-            - libxcursor1
-            - libxcb-render0
-            - libxcb-shape0
-            - libxcb-xfixes0
-            - libxcb1
-            - libxdmcp6
-            - libxi6
-            - libxrandr2
-            - libffi7
-        override-build: |
-            version=$(git describe|cut -c2-)
+  alacritty:
+    plugin: rust
+    source: https://github.com/alacritty/alacritty.git
+    source-tag: v0.7.2
+    parse-info:
+      - extra/linux/io.alacritty.Alacritty.appdata.xml
+    rust-path:
+      - alacritty
+    build-packages:
+      - cmake
+      - pkg-config
+      - libfreetype6-dev
+      - libfontconfig1-dev
+      - libxcb-xfixes0-dev
+      - python3
+      - libegl1-mesa-dev # necessary for nvidia users on wayland
+      - libxcb-render0-dev
+      - libxcb-shape0-dev
+      - libxcb1-dev
+      - libgl1-mesa-dev
+    stage-packages:
+      - libfontconfig1
+      - libfreetype6
+      - libpng16-16
+      - libxau6
+      - libxcursor1
+      - libxcb-render0
+      - libxcb-shape0
+      - libxcb-xfixes0
+      - libxcb1
+      - libxdmcp6
+      - libxi6
+      - libxrandr2
+      - libffi7
+    override-build: |
+      version=$(git describe|cut -c2-)
 
-            snapcraftctl set-version $version
-            snapcraftctl build
+      snapcraftctl set-version $version
+      snapcraftctl build
 
-            mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications \
-                $SNAPCRAFT_PART_INSTALL/usr/share/icons
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications \
+          $SNAPCRAFT_PART_INSTALL/usr/share/icons
 
-            cp extra/linux/Alacritty.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
-            cp extra/logo/compat/alacritty-term+scanlines.png $SNAPCRAFT_PART_INSTALL/usr/share/icons/Alacritty.png
+      cp extra/linux/Alacritty.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
+      cp extra/logo/compat/alacritty-term+scanlines.png $SNAPCRAFT_PART_INSTALL/usr/share/icons/Alacritty.png
 
-            sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/Alacritty.png|g' \
-                $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
+      sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/Alacritty.png|g' \
+          $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
