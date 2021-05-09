@@ -83,7 +83,7 @@ parts:
       - libxrandr2
       - libffi7
     override-build: |
-      version=$(git describe|git describe | cut --delimiter=\_ -f 3)
+      version=$(git describe --match "v*" | cut -c2-)
 
       snapcraftctl set-version $version
       snapcraftctl build
