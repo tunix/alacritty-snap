@@ -15,7 +15,7 @@ apps:
     desktop: usr/share/applications/Alacritty.desktop
     environment:
       LC_ALL: C.UTF-8
-      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
+      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/lib/$SNAPCRAFT_ARCH_TRIPLET"
 
 parts:
   desktop-glib-only:
@@ -67,6 +67,7 @@ parts:
       - libxcb1-dev
       - libgl1-mesa-dev
     stage-packages:
+      - libtinfo6
       - libfontconfig1
       - libfreetype6
       - libpng16-16
@@ -81,7 +82,7 @@ parts:
       - libxrandr2
       - libffi7
     override-build: |
-      version=$(git describe|cut -c2-)
+      version=$(git describe|git describe | cut --delimiter=\_ -f 3)
 
       snapcraftctl set-version $version
       snapcraftctl build
