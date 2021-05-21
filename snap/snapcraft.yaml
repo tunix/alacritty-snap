@@ -50,7 +50,7 @@ parts:
   alacritty:
     plugin: rust
     source: https://github.com/alacritty/alacritty.git
-    source-tag: v0.7.2
+    source-tag: v0.8.0
     parse-info:
       - extra/linux/io.alacritty.Alacritty.appdata.xml
     rust-path:
@@ -82,6 +82,8 @@ parts:
       - libxi6
       - libxrandr2
       - libffi7
+      - libxkbcommon0
+      - libnss-sss
     override-build: |
       version=$(git describe --match "v*" | cut -c2-)
 
