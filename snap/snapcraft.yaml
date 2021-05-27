@@ -13,6 +13,7 @@ apps:
       - bin/desktop-launch
       - bin/custom-wrapper
     common-id: io.alacritty.Alacritty
+    completer: usr/share/bash-completion/completions/alacritty
     desktop: usr/share/applications/Alacritty.desktop
     environment:
       LC_ALL: C.UTF-8
@@ -91,10 +92,12 @@ parts:
       snapcraftctl build
 
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications \
-          $SNAPCRAFT_PART_INSTALL/usr/share/icons
+          $SNAPCRAFT_PART_INSTALL/usr/share/icons \
+          $SNAPCRAFT_PART_INSTALL/usr/share/bash-completion/completions
 
       cp extra/linux/Alacritty.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
       cp extra/logo/compat/alacritty-term+scanlines.png $SNAPCRAFT_PART_INSTALL/usr/share/icons/Alacritty.png
+      cp extra/completions/alacritty.bash $SNAPCRAFT_PART_INSTALL/usr/share/bash-completion/completions/alacritty
 
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/Alacritty.png|g' \
           $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
