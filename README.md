@@ -1,4 +1,8 @@
 <h1 align="center">
+    Moved to <a href="https://github.com/snapcrafters/alacritty">snapcrafters</a>.
+</h1>
+
+<h1 align="center">
   <img src="alacritty.png" alt="alacritty">
   <br />
   alacritty
