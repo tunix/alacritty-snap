@@ -35,6 +35,15 @@ distributions.</p>
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
+## Testing
+
+[X] Are you able to launch alacritty?
+[X] Do your customizations work? (`~/.config/alacritty/alacritty.yml`)
+[X] Does transparency work? (only if configured)
+[X] Are you able to launch commands with sudo?
+[X] Are you able to launch text based apps? (nano, vim, bpytop etc.)
+[ ] Are you able to launch GUI applications? (gedit, xeyes etc.)
+
 | [![Alper Kanat](https://gravatar.com/avatar/ef468cdb9947165b09d2afae24d6491c/?s=128)](https://github.com/tunix/) |
 | :---: |
 | [Alper Kanat](https://github.com/tunix/) |

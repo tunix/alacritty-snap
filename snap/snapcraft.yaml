@@ -10,25 +10,12 @@ apps:
   alacritty:
     command: bin/alacritty
     command-chain:
-      - bin/desktop-launch
       - bin/custom-wrapper
     common-id: io.alacritty.Alacritty
     completer: usr/share/bash-completion/completions/alacritty
     desktop: usr/share/applications/Alacritty.desktop
-    environment:
-      LC_ALL: C.UTF-8
-      LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/lib/$SNAPCRAFT_ARCH_TRIPLET"
 
 parts:
-  desktop-glib-only:
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-subdir: glib-only
-    plugin: make
-    build-packages:
-      - libglib2.0-dev
-    stage-packages:
-      - libglib2.0-bin
-
   mesa:
     plugin: nil
     stage-packages:
@@ -62,6 +49,7 @@ parts:
       - libfreetype6-dev
       - libfontconfig1-dev
       - libxcb-xfixes0-dev
+      - libxkbcommon-dev
       - python3
       - libegl1-mesa-dev # necessary for nvidia users on wayland
       - libxcb-render0-dev
