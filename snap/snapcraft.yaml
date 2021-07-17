@@ -44,6 +44,7 @@ parts:
     rust-path:
       - alacritty
     build-packages:
+      - patchelf
       - cmake
       - pkg-config
       - libfreetype6-dev
@@ -90,3 +91,7 @@ parts:
 
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/Alacritty.png|g' \
           $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
+
+      patchelf --force-rpath \
+          --set-rpath '$SNAP/lib/'$SNAPCRAFT_ARCH_TRIPLET':$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET':$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/mesa:$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/mesa-egl:$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/dri' \
+          $SNAPCRAFT_PART_INSTALL/bin/alacritty

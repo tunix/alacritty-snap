@@ -32,15 +32,8 @@ fi
 
 export LC_ALL=C.UTF-8
 
-append_dir LD_LIBRARY_PATH $SNAP/lib/$ARCH
-append_dir LD_LIBRARY_PATH $SNAP/usr/lib/$ARCH
-append_dir LD_LIBRARY_PATH $SNAP/usr/lib/$ARCH/mesa
-append_dir LD_LIBRARY_PATH $SNAP/usr/lib/$ARCH/mesa-egl
-
 export LIBGL_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
 export LIBVA_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
-
-append_dir LD_LIBRARY_PATH $LIBGL_DRIVERS_PATH
 
 # EGL vendor files on glvnd enabled systems
 [ -d /var/lib/snapd/lib/glvnd/egl_vendor.d ] \
