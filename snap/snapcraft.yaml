@@ -4,36 +4,28 @@ adopt-info: alacritty
 base: core20
 grade: stable
 confinement: classic
-compression: lzo    # should make startup nearly as fast as regular executables
+compression: lzo
 
 apps:
   alacritty:
     command: bin/alacritty
-    command-chain:
-      - bin/custom-wrapper
     common-id: io.alacritty.Alacritty
     completer: usr/share/bash-completion/completions/alacritty
     desktop: usr/share/applications/Alacritty.desktop
+    environment:
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+      LIBGL_DRIVERS_PATH: $SNAP/usr/lib/x86_64-linux-gnu/dri
+      __EGL_VENDOR_LIBRARY_DIRS: $SNAP/etc/glvnd/egl_vendor.d:$SNAP/usr/share/glvnd/egl_vendor.d
 
 parts:
   mesa:
     plugin: nil
     stage-packages:
-      - libglu1-mesa
       - libgl1-mesa-dri
-      - libgl1-mesa-glx
-      - libegl-mesa0
-      - libegl1
-      - libegl1-mesa
       - libglx-mesa0
     build-attributes:
       - no-patchelf
-
-  custom-wrapper:
-    plugin: dump
-    source: snap/local/
-    organize:
-      custom-wrapper: bin/
 
   alacritty:
     plugin: rust
@@ -44,7 +36,6 @@ parts:
     rust-path:
       - alacritty
     build-packages:
-      - patchelf
       - cmake
       - pkg-config
       - libfreetype6-dev
@@ -58,8 +49,6 @@ parts:
       - libxcb1-dev
       - libgl1-mesa-dev
     stage-packages:
-      - libtinfo6
-      - libncursesw6
       - libfontconfig1
       - libfreetype6
       - libpng16-16
@@ -91,7 +80,3 @@ parts:
 
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/Alacritty.png|g' \
           $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
-
-      patchelf --force-rpath \
-          --set-rpath '$SNAP/lib/'$SNAPCRAFT_ARCH_TRIPLET':$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET':$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/mesa:$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/mesa-egl:$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/dri' \
-          $SNAPCRAFT_PART_INSTALL/bin/alacritty
