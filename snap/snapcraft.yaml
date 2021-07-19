@@ -36,6 +36,9 @@ parts:
       custom-wrapper: bin/
 
   alacritty:
+    after:
+      - mesa
+      - custom-wrapper
     plugin: rust
     source: https://github.com/alacritty/alacritty.git
     source-tag: v0.8.0
@@ -91,7 +94,10 @@ parts:
 
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/Alacritty.png|g' \
           $SNAPCRAFT_PART_INSTALL/usr/share/applications/Alacritty.desktop
+    override-prime: |
+      snapcraftctl prime
 
-      patchelf --force-rpath \
-          --set-rpath '$SNAP/lib/'$SNAPCRAFT_ARCH_TRIPLET':$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET':$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/mesa:$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/mesa-egl:$SNAP/usr/lib/'$SNAPCRAFT_ARCH_TRIPLET'/dri' \
-          $SNAPCRAFT_PART_INSTALL/bin/alacritty
+      patchelf --set-interpreter /snap/core20/current/lib64/ld-linux-x86-64.so.2 \
+          --force-rpath \
+          --set-rpath "/snap/alacritty/current/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/alacritty/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/alacritty/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:/snap/alacritty/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:/snap/alacritty/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri" \
+          $SNAPCRAFT_PRIME/bin/alacritty

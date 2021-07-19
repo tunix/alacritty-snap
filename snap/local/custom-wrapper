@@ -35,12 +35,4 @@ export LC_ALL=C.UTF-8
 export LIBGL_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
 export LIBVA_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
 
-# EGL vendor files on glvnd enabled systems
-[ -d /var/lib/snapd/lib/glvnd/egl_vendor.d ] \
-    && prepend_dir __EGL_VENDOR_LIBRARY_DIRS /var/lib/snapd/lib/glvnd/egl_vendor.d
-
-# EGL vendor files
-append_dir __EGL_VENDOR_LIBRARY_DIRS $SNAP/etc/glvnd/egl_vendor.d
-append_dir __EGL_VENDOR_LIBRARY_DIRS $SNAP/usr/share/glvnd/egl_vendor.d
-
 exec "$@"
